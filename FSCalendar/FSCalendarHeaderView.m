@@ -62,6 +62,12 @@
     [self addSubview:collectionView];
     [collectionView registerClass:[FSCalendarHeaderCell class] forCellWithReuseIdentifier:@"cell"];
     self.collectionView = collectionView;
+    
+    UILabel *fixedLabel = [[UILabel alloc]initWithFrame:CGRectZero];
+    fixedLabel.text = nil;
+    fixedLabel.alpha = 0.0;
+    self.fixedHeaderLabel = fixedLabel;
+    [self addSubview:fixedLabel];
 }
 
 - (void)layoutSubviews
@@ -71,8 +77,10 @@
     if (_needsAdjustingViewFrame) {
         _needsAdjustingViewFrame = NO;
         _collectionViewLayout.itemSize = CGSizeMake(1, 1);
-        [_collectionViewLayout invalidateLayout];
+        [_collectionViewLayout invalidateLayout];        
         _collectionView.frame = CGRectMake(0, self.fs_height*0.1, self.fs_width, self.fs_height*0.9);
+        _fixedHeaderLabel.frame = _collectionView.frame;
+        [_fixedHeaderLabel sizeToFit];
     }
     
     if (_needsAdjustingMonthPosition) {
@@ -242,21 +250,45 @@
                 NSDate *date = [self.calendar.gregorian dateByAddingUnit:NSCalendarUnitWeekOfYear value:indexPath.item-1 toDate:firstPage options:0];
                 text = [_calendar.formatter stringFromDate:date];
             }
+            
             break;
         }
         default: {
             break;
         }
     }
+    
+    [self configureFixedHeaderTitle:usesUpperCase];
+
     text = usesUpperCase ? text.uppercaseString : text;
     cell.titleLabel.text = text;
     [cell setNeedsLayout];
+}
+
+- (void)configureFixedHeaderTitle:(BOOL) usesUpperCase
+{
+    NSString *currentFixedHeaderTitle = [_calendar.formatter stringFromDate:[self.calendar.gregorian fs_middleDayOfWeek:self.calendar.currentPage]];
+    currentFixedHeaderTitle = usesUpperCase ? currentFixedHeaderTitle.uppercaseString : currentFixedHeaderTitle;
+    _fixedHeaderLabel.text = currentFixedHeaderTitle;
 }
 
 - (void)configureAppearance
 {
     [self.collectionView.visibleCells enumerateObjectsUsingBlock:^(__kindof FSCalendarHeaderCell * _Nonnull cell, NSUInteger idx, BOOL * _Nonnull stop) {
         [self configureCell:cell atIndexPath:[self.collectionView indexPathForCell:cell]];
+    }];
+    
+    [self configureFixedHeaderAppearance];
+}
+
+- (void)configureFixedHeaderAppearance
+{
+    _fixedHeaderLabel.backgroundColor = self.calendar.backgroundColor;
+    _fixedHeaderLabel.font = self.calendar.appearance.headerTitleFont;
+    _fixedHeaderLabel.textColor = self.calendar.appearance.headerTitleColor;
+    _fixedHeaderLabel.textAlignment = NSTextAlignmentCenter;
+    [UIView animateWithDuration: 0.5 animations:^{
+        _fixedHeaderLabel.alpha = (self.calendar.scope == FSCalendarScopeMonth) ? 0.0 : 1.0;
     }];
 }
 
