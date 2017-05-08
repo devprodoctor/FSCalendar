@@ -78,9 +78,8 @@
         _needsAdjustingViewFrame = NO;
         _collectionViewLayout.itemSize = CGSizeMake(1, 1);
         [_collectionViewLayout invalidateLayout];        
-        _collectionView.frame = CGRectMake(0, self.fs_height*0.1, self.fs_width, self.fs_height*0.9);
+        _collectionView.frame = CGRectMake(0, ceilf(self.fs_height*0.1), self.fs_width, ceilf(self.fs_height*0.9));
         _fixedHeaderLabel.frame = _collectionView.frame;
-        [_fixedHeaderLabel sizeToFit];
     }
     
     if (_needsAdjustingMonthPosition) {
@@ -287,9 +286,7 @@
     _fixedHeaderLabel.font = self.calendar.appearance.headerTitleFont;
     _fixedHeaderLabel.textColor = self.calendar.appearance.headerTitleColor;
     _fixedHeaderLabel.textAlignment = NSTextAlignmentCenter;
-    [UIView animateWithDuration: 0.5 animations:^{
-        _fixedHeaderLabel.alpha = (self.calendar.scope == FSCalendarScopeMonth) ? 0.0 : 1.0;
-    }];
+    _fixedHeaderLabel.alpha = (self.calendar.scope == FSCalendarScopeMonth) ? 0.0 : 1.0;
 }
 
 @end
