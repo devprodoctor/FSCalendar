@@ -35,6 +35,16 @@
         _weekdayFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
         _headerTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
         
+        int titleFontMaxSize = 30;
+        int subtitleFontMaxSize = 26;
+        int weekdayFontMaxSize = 30;
+        int headerFontMaxSize = 34;
+        
+        _titleFont = _titleFont.pointSize > titleFontMaxSize ? [UIFont systemFontOfSize:titleFontMaxSize] : _titleFont;
+        _subtitleFont = _subtitleFont.pointSize > subtitleFontMaxSize ? [UIFont systemFontOfSize:subtitleFontMaxSize] : _subtitleFont;
+        _weekdayFont = _weekdayFont.pointSize > weekdayFontMaxSize ? [UIFont systemFontOfSize:weekdayFontMaxSize] : _weekdayFont;
+        _headerTitleFont = _headerTitleFont.pointSize > headerFontMaxSize ? [UIFont systemFontOfSize:headerFontMaxSize] : _headerTitleFont;
+
         _headerTitleColor = FSCalendarStandardTitleTextColor;
         _headerDateFormat = @"MMMM yyyy";
         _headerMinimumDissolvedAlpha = 0.2;
