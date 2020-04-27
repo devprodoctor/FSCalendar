@@ -28,6 +28,10 @@ CG_EXTERN CGFloat const FSCalendarStandardWeekdayTextSize;
 CG_EXTERN CGFloat const FSCalendarStandardHeaderTextSize;
 CG_EXTERN CGFloat const FSCalendarMaximumEventDotDiameter;
 CG_EXTERN CGFloat const FSCalendarStandardScopeHandleHeight;
+CG_EXTERN CGFloat const FSCalendarMaximumTitleTextSize;
+CG_EXTERN CGFloat const FSCalendarMaximumSubtitleTextSize;
+CG_EXTERN CGFloat const FSCalendarMaximumWeekdayTextSize;
+CG_EXTERN CGFloat const FSCalendarMaximumHeaderTextSize;
 
 UIKIT_EXTERN NSInteger const FSCalendarDefaultHourComponent;
 
