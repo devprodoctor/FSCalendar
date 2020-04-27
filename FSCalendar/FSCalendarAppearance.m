@@ -30,10 +30,10 @@
     self = [super init];
     if (self) {
         
-        _titleFont = [UIFont systemFontOfSize:FSCalendarStandardTitleTextSize];
-        _subtitleFont = [UIFont systemFontOfSize:FSCalendarStandardSubtitleTextSize];
-        _weekdayFont = [UIFont systemFontOfSize:FSCalendarStandardWeekdayTextSize];
-        _headerTitleFont = [UIFont systemFontOfSize:FSCalendarStandardHeaderTextSize];
+        _titleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+        _subtitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
+        _weekdayFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+        _headerTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
         
         _headerTitleColor = FSCalendarStandardTitleTextColor;
         _headerDateFormat = @"MMMM yyyy";
