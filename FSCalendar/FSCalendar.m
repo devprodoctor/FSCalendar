@@ -307,13 +307,14 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
     
     if (_needsAdjustingViewFrame) {
         _needsAdjustingViewFrame = NO;
+        CGFloat padding = 5;
+        CGFloat bottomSpacing = 12;
+        CGFloat headerHeight = self.preferredHeaderHeight;
+        CGFloat weekdayHeight = self.preferredWeekdayHeight;
+        CGFloat rowHeight = self.preferredRowHeight;
         
         if (CGSizeEqualToSize(_transitionCoordinator.cachedMonthSize, CGSizeZero)) {
-            CGFloat headerHeight = _appearance.headerTitleFont.pointSize + 6;
-            CGFloat subheaderHeight =  _appearance.weekdayFont.pointSize + 6;
-            CGFloat calendarHeight = (_appearance.titleFont.pointSize + 10) * 6;
-            CGFloat height = headerHeight + subheaderHeight + calendarHeight;
-            
+            CGFloat height = headerHeight + weekdayHeight + rowHeight * 6 + bottomSpacing;
             _transitionCoordinator.cachedMonthSize = CGSizeMake(self.frame.size.width, height > self.frame.size.height ? height : self.frame.size.height);
         }
         
@@ -329,10 +330,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
             _contentView.frame = self.bounds;
         }
 
-        CGFloat headerHeight = self.preferredHeaderHeight;
-        CGFloat weekdayHeight = self.preferredWeekdayHeight;
-        CGFloat rowHeight = self.preferredRowHeight;
-        CGFloat padding = 5;
+
         if (self.scrollDirection == UICollectionViewScrollDirectionHorizontal) {
             rowHeight = FSCalendarFloor(rowHeight*2)*0.5; // Round to nearest multiple of 0.5. e.g. (16.8->16.5),(16.2->16.0)
         }
@@ -974,8 +972,9 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
 {
     if (_preferredWeekdayHeight == FSCalendarAutomaticDimension) {
         if (!self.floatingMode) {
+            CGFloat padding = 5;
             CGFloat height = _appearance.headerTitleFont.pointSize;
-            _preferredHeaderHeight = height > _headerHeight ? height + 6: _headerHeight;
+            _preferredHeaderHeight = height > _headerHeight ? height + padding : _headerHeight;
         } else {
             _preferredHeaderHeight = FSCalendarStandardHeaderHeight*MAX(1, FSCalendarDeviceIsIPad*1.5)*_lineHeightMultiplier;
         }
@@ -987,8 +986,9 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
 {
     if (_preferredWeekdayHeight == FSCalendarAutomaticDimension) {
         if (!self.floatingMode) {
+            CGFloat padding = 5;
             CGFloat height = _appearance.weekdayFont.pointSize;
-            _preferredWeekdayHeight = height > _weekdayHeight ? height + 6 : _weekdayHeight;
+            _preferredWeekdayHeight = height > _weekdayHeight ? height + padding : _weekdayHeight;
         } else {
             _preferredWeekdayHeight = FSCalendarStandardWeekdayHeight*MAX(1, FSCalendarDeviceIsIPad*1.5)*_lineHeightMultiplier;
         }
@@ -999,12 +999,9 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
 - (CGFloat)preferredRowHeight
 {
     if (_preferredRowHeight == FSCalendarAutomaticDimension) {
-        CGFloat headerHeight = self.preferredHeaderHeight;
-        CGFloat weekdayHeight = self.preferredWeekdayHeight;
-        CGFloat contentHeight = self.transitionCoordinator.cachedMonthSize.height-headerHeight-weekdayHeight-_scopeHandle.fs_height;
-        CGFloat padding = 5;
+        CGFloat padding = 12;
         if (!self.floatingMode) {
-            _preferredRowHeight = (contentHeight-padding*2)/6.0;
+            _preferredRowHeight = (_appearance.titleFont.pointSize + padding*2);
         } else {
             _preferredRowHeight = FSCalendarStandardRowHeight*MAX(1, FSCalendarDeviceIsIPad*1.5)*_lineHeightMultiplier;
         }
