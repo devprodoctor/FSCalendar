@@ -29,17 +29,8 @@
 {
     self = [super init];
     if (self) {
+        [self setupFonts];
         
-        _titleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
-        _subtitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
-        _weekdayFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
-        _headerTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-
-        _titleFont = _titleFont.pointSize > FSCalendarMaximumTitleTextSize ? [UIFont systemFontOfSize:FSCalendarMaximumTitleTextSize] : _titleFont;
-        _subtitleFont = _subtitleFont.pointSize > FSCalendarMaximumSubtitleTextSize ? [UIFont systemFontOfSize:FSCalendarMaximumSubtitleTextSize] : _subtitleFont;
-        _weekdayFont = _weekdayFont.pointSize > FSCalendarMaximumWeekdayTextSize ? [UIFont systemFontOfSize:FSCalendarMaximumWeekdayTextSize] : _weekdayFont;
-        _headerTitleFont = _headerTitleFont.pointSize > FSCalendarMaximumHeaderTextSize ? [UIFont systemFontOfSize:FSCalendarMaximumHeaderTextSize] : _headerTitleFont;
-
         _headerTitleColor = FSCalendarStandardTitleTextColor;
         _headerDateFormat = @"MMMM yyyy";
         _headerMinimumDissolvedAlpha = 0.2;
@@ -520,6 +511,22 @@
 - (void)invalidateAppearance
 {
     [self.calendar setNeedsConfigureAppearance];
+}
+
+- (void)updateFonts {
+    [self setupFonts];
+}
+
+- (void)setupFonts {
+    _titleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+    _subtitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
+    _weekdayFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+    _headerTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+
+    _titleFont = _titleFont.pointSize > FSCalendarMaximumTitleTextSize ? [UIFont systemFontOfSize:FSCalendarMaximumTitleTextSize] : _titleFont;
+    _subtitleFont = _subtitleFont.pointSize > FSCalendarMaximumSubtitleTextSize ? [UIFont systemFontOfSize:FSCalendarMaximumSubtitleTextSize] : _subtitleFont;
+    _weekdayFont = _weekdayFont.pointSize > FSCalendarMaximumWeekdayTextSize ? [UIFont systemFontOfSize:FSCalendarMaximumWeekdayTextSize] : _weekdayFont;
+    _headerTitleFont = _headerTitleFont.pointSize > FSCalendarMaximumHeaderTextSize ? [UIFont systemFontOfSize:FSCalendarMaximumHeaderTextSize] : _headerTitleFont;
 }
 
 - (void)setAdjustsFontSizeToFitContentSize:(BOOL)adjustsFontSizeToFitContentSize {}
