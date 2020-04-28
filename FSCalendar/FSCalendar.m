@@ -970,7 +970,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
 
 - (CGFloat)preferredHeaderHeight
 {
-    if (_preferredWeekdayHeight == FSCalendarAutomaticDimension) {
+    if (_preferredHeaderHeight == FSCalendarAutomaticDimension) {
         if (!self.floatingMode) {
             CGFloat padding = 5;
             CGFloat height = _appearance.headerTitleFont.pointSize;
