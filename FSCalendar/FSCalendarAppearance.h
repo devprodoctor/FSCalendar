@@ -224,6 +224,8 @@ typedef NS_OPTIONS(NSUInteger, FSCalendarSeparators) {
  */
 @interface FSCalendarAppearance (Deprecated)
 
+@property (assign, nonatomic) void updateFonts;
+@property (assign, nonatomic) void setupFonts;
 @property (assign, nonatomic) BOOL useVeryShortWeekdaySymbols FSCalendarDeprecated('caseOptions');
 @property (assign, nonatomic) CGFloat titleVerticalOffset FSCalendarDeprecated('titleOffset');
 @property (assign, nonatomic) CGFloat subtitleVerticalOffset FSCalendarDeprecated('subtitleOffset');
