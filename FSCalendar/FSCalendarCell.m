@@ -155,7 +155,7 @@
                                        self.fs_width,
                                        eventSize*0.83
                                       );
-    
+    [self configureAppearance];
 }
 
 - (void)prepareForReuse
