@@ -266,8 +266,26 @@
 
 - (void)configureFixedHeaderTitle:(BOOL) usesUpperCase
 {
-    NSString *currentFixedHeaderTitle = [_calendar.formatter stringFromDate:[self.calendar.gregorian fs_middleDayOfWeek:self.calendar.currentPage]];
+    NSDate *middleDate = [self.calendar.gregorian fs_middleDayOfWeek:self.calendar.currentPage];
+    NSDate *currentDate = self.calendar.selectedDate;
+    
+    NSDateComponents *components = [[NSCalendar currentCalendar] components: NSCalendarUnitDay
+                                                                   fromDate: middleDate
+                                                                     toDate: currentDate
+                                                                    options: 0];
+    NSInteger days = labs([components day]);
+    
+    NSDate *fixedDate;
+    
+    if (days > 3) {
+        fixedDate = middleDate;
+    } else {
+        fixedDate = currentDate;
+    }
+    
+    NSString *currentFixedHeaderTitle = [_calendar.formatter stringFromDate:fixedDate];
     currentFixedHeaderTitle = usesUpperCase ? currentFixedHeaderTitle.uppercaseString : currentFixedHeaderTitle;
+    
     _fixedHeaderLabel.text = currentFixedHeaderTitle;
 }
 
