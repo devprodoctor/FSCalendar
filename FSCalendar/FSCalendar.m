@@ -48,6 +48,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
 @interface FSCalendar ()<UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate>
 {
     NSMutableArray  *_selectedDates;
+    NSDate  *_lastSelectedDate;
 }
 
 @property (strong, nonatomic) NSCalendar *gregorian;
@@ -1672,6 +1673,22 @@ void FSCalendarRunLoopCallback(CFRunLoopObserverRef observer, CFRunLoopActivity 
 
 - (void)enqueueSelectedDate:(NSDate *)date
 {
+    if (_lastSelectedDate) {
+        NSDateComponents *compA = [[NSCalendar currentCalendar] components: NSCalendarUnitMonth
+                                                                  fromDate: _lastSelectedDate];
+        
+        NSDateComponents *compB = [[NSCalendar currentCalendar] components: NSCalendarUnitMonth
+                                                                  fromDate: date];
+        
+        NSInteger monthA = labs([compA month]);
+        NSInteger monthB = labs([compB month]);
+                
+        if (monthA - monthB != 0) {
+            [_calendarHeaderView reloadData];
+        }
+    }
+    _lastSelectedDate = date;
+    
     if (!self.allowsMultipleSelection) {
         [_selectedDates removeAllObjects];
     }
@@ -1741,5 +1758,3 @@ void FSCalendarRunLoopCallback(CFRunLoopObserverRef observer, CFRunLoopActivity 
 }
 
 @end
-
-
