@@ -20,7 +20,7 @@
 - (void)performTransitionCompletionAnimated:(BOOL)animated;
 - (void)performTransitionCompletion:(FSCalendarTransition)transition animated:(BOOL)animated;
 
-- (void)performAlphaAnimationFrom:(CGFloat)fromAlpha to:(CGFloat)toAlpha duration:(CGFloat)duration exception:(NSInteger)exception completion:(void(^)())completion;
+- (void)performAlphaAnimationFrom:(CGFloat)fromAlpha to:(CGFloat)toAlpha duration:(CGFloat)duration exception:(NSInteger)exception completion:(void(^)(void))completion;
 - (void)performForwardTransition:(FSCalendarTransition)transition fromProgress:(CGFloat)progress;
 - (void)performBackwardTransition:(FSCalendarTransition)transition fromProgress:(CGFloat)progress;
 - (void)performAlphaAnimationWithProgress:(CGFloat)progress;
@@ -278,13 +278,15 @@
                 }];
                 
                 if (self.calendar.delegate && ([self.calendar.delegate respondsToSelector:@selector(calendar:boundingRectWillChange:animated:)] || [self.calendar.delegate respondsToSelector:@selector(calendarCurrentScopeWillChange:animated:)])) {
-                    [UIView beginAnimations:nil context:nil];
-                    [UIView setAnimationsEnabled:YES];
-                    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-                    [UIView setAnimationDuration:duration];
-                    self.collectionView.fs_top = -attr.focusedRowNumber*self.calendar.collectionViewLayout.estimatedItemSize.height;
-                    [self boundingRectWillChange:attr.targetBounds animated:animated];
-                    [UIView commitAnimations];
+                    
+                    [UIView animateWithDuration:duration
+                                          delay:0
+                                        options:UIViewAnimationOptionCurveEaseInOut
+                                     animations:^{
+                        self.collectionView.fs_top = -attr.focusedRowNumber*self.calendar.collectionViewLayout.estimatedItemSize.height;
+                        [self boundingRectWillChange:attr.targetBounds animated:animated];
+                        
+                    } completion:nil];
                 }
                 
             } else {
@@ -315,13 +317,15 @@
                 [CATransaction setDisableActions:NO];
                 if (self.calendar.delegate && ([self.calendar.delegate respondsToSelector:@selector(calendar:boundingRectWillChange:animated:)] || [self.calendar.delegate respondsToSelector:@selector(calendarCurrentScopeWillChange:animated:)])) {
                     self.collectionView.fs_top = -attr.focusedRowNumber*self.calendar.collectionViewLayout.estimatedItemSize.height;
-                    [UIView beginAnimations:nil context:nil];
-                    [UIView setAnimationsEnabled:YES];
-                    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-                    [UIView setAnimationDuration:duration];
-                    self.collectionView.fs_top = 0;
-                    [self boundingRectWillChange:attr.targetBounds animated:animated];
-                    [UIView commitAnimations];
+                    
+                    
+                    [UIView animateWithDuration:duration
+                                          delay:0
+                                        options:UIViewAnimationOptionCurveEaseInOut
+                                     animations:^{
+                        self.collectionView.fs_top = 0;
+                        [self boundingRectWillChange:attr.targetBounds animated:animated];
+                    } completion:nil];
                 }
                 [CATransaction commit];
                 
@@ -577,12 +581,14 @@
             }];
             
             if (self.calendar.delegate && ([self.calendar.delegate respondsToSelector:@selector(calendar:boundingRectWillChange:animated:)] || [self.calendar.delegate respondsToSelector:@selector(calendarCurrentScopeWillChange:animated:)])) {
-                [UIView beginAnimations:@"delegateTranslation" context:"translation"];
-                [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-                [UIView setAnimationDuration:duration];
-                self.collectionView.fs_top = -attr.focusedRowNumber*self.calendar.collectionViewLayout.estimatedItemSize.height;
-                [self boundingRectWillChange:attr.targetBounds animated:YES];
-                [UIView commitAnimations];
+                
+                [UIView animateWithDuration:duration
+                                      delay:0
+                                    options:UIViewAnimationOptionCurveEaseInOut
+                                 animations:^{
+                    self.collectionView.fs_top = -attr.focusedRowNumber*self.calendar.collectionViewLayout.estimatedItemSize.height;
+                    [self boundingRectWillChange:attr.targetBounds animated:YES];
+                } completion:nil];
             }
             
             break;
@@ -602,13 +608,14 @@
             [CATransaction setDisableActions:NO];
             
             if (self.calendar.delegate && ([self.calendar.delegate respondsToSelector:@selector(calendar:boundingRectWillChange:animated:)] || [self.calendar.delegate respondsToSelector:@selector(calendarCurrentScopeWillChange:animated:)])) {
-                [UIView beginAnimations:@"delegateTranslation" context:"translation"];
-                [UIView setAnimationsEnabled:YES];
-                [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-                [UIView setAnimationDuration:duration];
-                self.collectionView.fs_top = 0;
-                [self boundingRectWillChange:attr.targetBounds animated:YES];
-                [UIView commitAnimations];
+                
+                [UIView animateWithDuration:duration
+                                      delay:0
+                                    options:UIViewAnimationOptionCurveEaseInOut
+                                 animations:^{
+                    self.collectionView.fs_top = 0;
+                    [self boundingRectWillChange:attr.targetBounds animated:YES];
+                } completion:nil];
             }
             [CATransaction commit];
             break;
@@ -637,13 +644,14 @@
             }];
             
             if (self.calendar.delegate && ([self.calendar.delegate respondsToSelector:@selector(calendar:boundingRectWillChange:animated:)] || [self.calendar.delegate respondsToSelector:@selector(calendarCurrentScopeWillChange:animated:)])) {
-                [UIView beginAnimations:@"delegateTranslation" context:"translation"];
-                [UIView setAnimationsEnabled:YES];
-                [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-                [UIView setAnimationDuration:0.3];
-                self.collectionView.fs_top = 0;
-                [self boundingRectWillChange:self.pendingAttributes.sourceBounds animated:YES];
-                [UIView commitAnimations];
+                
+                [UIView animateWithDuration:0.3
+                                      delay:0
+                                    options:UIViewAnimationOptionCurveEaseInOut
+                                 animations:^{
+                    self.collectionView.fs_top = 0;
+                    [self boundingRectWillChange:self.pendingAttributes.sourceBounds animated:YES];
+                } completion:nil];
             }
             break;
         }
@@ -659,13 +667,14 @@
             }];
             
             if (self.calendar.delegate && ([self.calendar.delegate respondsToSelector:@selector(calendar:boundingRectWillChange:animated:)] || [self.calendar.delegate respondsToSelector:@selector(calendarCurrentScopeWillChange:animated:)])) {
-                [UIView beginAnimations:@"delegateTranslation" context:"translation"];
-                [UIView setAnimationsEnabled:YES];
-                [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-                [UIView setAnimationDuration:0.3];
-                self.collectionView.fs_top = (-self.pendingAttributes.focusedRowNumber*self.calendar.collectionViewLayout.estimatedItemSize.height);
-                [self boundingRectWillChange:self.pendingAttributes.sourceBounds animated:YES];
-                [UIView commitAnimations];
+                
+                [UIView animateWithDuration:0.3
+                                      delay:0
+                                    options:UIViewAnimationOptionCurveEaseInOut
+                                 animations:^{
+                    self.collectionView.fs_top = (-self.pendingAttributes.focusedRowNumber*self.calendar.collectionViewLayout.estimatedItemSize.height);
+                    [self boundingRectWillChange:self.pendingAttributes.sourceBounds animated:YES];
+                } completion:nil];
             }
             break;
         }
@@ -674,7 +683,7 @@
     }
 }
 
-- (void)performAlphaAnimationFrom:(CGFloat)fromAlpha to:(CGFloat)toAlpha duration:(CGFloat)duration exception:(NSInteger)exception completion:(void(^)())completion;
+- (void)performAlphaAnimationFrom:(CGFloat)fromAlpha to:(CGFloat)toAlpha duration:(CGFloat)duration exception:(NSInteger)exception completion:(void(^)(void))completion;
 {
     [self.calendar.visibleCells enumerateObjectsUsingBlock:^(FSCalendarCell *cell, NSUInteger idx, BOOL *stop) {
         if (CGRectContainsPoint(self.collectionView.bounds, cell.center)) {

@@ -25,7 +25,7 @@ class DIYExampleViewController: UIViewController, FSCalendarDataSource, FSCalend
     override func loadView() {
         
         let view = UIView(frame: UIScreen.main.bounds)
-        view.backgroundColor = UIColor.groupTableViewBackground
+        view.backgroundColor = .systemGroupedBackground
         self.view = view
         
         let height: CGFloat = UIDevice.current.model.hasPrefix("iPad") ? 400 : 300
