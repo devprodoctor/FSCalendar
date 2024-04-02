@@ -224,8 +224,6 @@ typedef NS_OPTIONS(NSUInteger, FSCalendarSeparators) {
  */
 @interface FSCalendarAppearance (Deprecated)
 
-@property (assign, nonatomic) void updateFonts;
-@property (assign, nonatomic) void setupFonts;
 @property (assign, nonatomic) BOOL useVeryShortWeekdaySymbols FSCalendarDeprecated('caseOptions');
 @property (assign, nonatomic) CGFloat titleVerticalOffset FSCalendarDeprecated('titleOffset');
 @property (assign, nonatomic) CGFloat subtitleVerticalOffset FSCalendarDeprecated('subtitleOffset');
@@ -234,7 +232,7 @@ typedef NS_OPTIONS(NSUInteger, FSCalendarSeparators) {
 @property (assign, nonatomic) BOOL adjustsFontSizeToFitContentSize DEPRECATED_MSG_ATTRIBUTE("The attribute \'adjustsFontSizeToFitContentSize\' is not neccesary anymore.");
 - (void)invalidateAppearance FSCalendarDeprecated('FSCalendar setNeedsConfigureAppearance');
 
+- (void) updateFonts;
+- (void) setupFonts;
+
 @end
-
-
-

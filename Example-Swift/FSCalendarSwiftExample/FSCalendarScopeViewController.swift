@@ -59,10 +59,12 @@ class FSCalendarScopeExampleViewController: UIViewController, UITableViewDataSou
         if shouldBegin {
             let velocity = self.scopeGesture.velocity(in: self.view)
             switch self.calendar.scope {
-            case .month:
-                return velocity.y < 0
-            case .week:
-                return velocity.y > 0
+                case .month:
+                    return velocity.y < 0
+                case .week:
+                    return velocity.y > 0
+                @unknown default:
+                    return false
             }
         }
         return shouldBegin
