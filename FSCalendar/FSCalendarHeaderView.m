@@ -65,7 +65,7 @@
     
     UILabel *fixedLabel = [[UILabel alloc]initWithFrame:CGRectZero];
     fixedLabel.text = nil;
-    fixedLabel.alpha = 0.0;
+    [fixedLabel setHidden: TRUE];
     self.fixedHeaderLabel = fixedLabel;
     [self addSubview:fixedLabel];
 }
@@ -300,11 +300,14 @@
 
 - (void)configureFixedHeaderAppearance
 {
-    _fixedHeaderLabel.backgroundColor = self.calendar.backgroundColor;
+    _fixedHeaderLabel.backgroundColor = [UIColor clearColor];
     _fixedHeaderLabel.font = self.calendar.appearance.headerTitleFont;
     _fixedHeaderLabel.textColor = self.calendar.appearance.headerTitleColor;
     _fixedHeaderLabel.textAlignment = NSTextAlignmentCenter;
-    _fixedHeaderLabel.alpha = (self.calendar.scope == FSCalendarScopeMonth) ? 0.0 : 1.0;
+    
+    BOOL isWeekScope = self.calendar.scope == FSCalendarScopeWeek;
+    [_fixedHeaderLabel setHidden:!isWeekScope];
+    [_collectionView setHidden:isWeekScope];
 }
 
 @end
