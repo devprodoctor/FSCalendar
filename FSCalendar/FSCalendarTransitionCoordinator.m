@@ -389,6 +389,7 @@
             self.collectionViewLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
             self.calendar.calendarHeaderView.scrollDirection = self.collectionViewLayout.scrollDirection;
             self.calendar.needsAdjustingViewFrame = YES;
+            self.state = FSCalendarTransitionStateIdle;
             [self.collectionView reloadData];
             [self.calendar.calendarHeaderView reloadData];
             break;
