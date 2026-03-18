@@ -168,6 +168,11 @@
 
 #pragma mark - Public
 
+- (BOOL)canBecomeFocused
+{
+    return NO;
+}
+
 - (void)performSelecting
 {
     _shapeLayer.opacity = 1;
