@@ -1,0 +1,6 @@
+// Módulo do Swift Package Manager. `FSCalendar.h` é declarado como header comum (e não
+// umbrella) porque a pasta também tem os headers internos, que não fazem parte da API.
+module FSCalendar {
+    header "FSCalendar.h"
+    export *
+}
